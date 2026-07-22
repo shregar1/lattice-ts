@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "lib": ["ES2022", "DOM"],
+    "types": ["node", "jest"],
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@controllers/*": ["./src/controllers/*"],
+      "@orchestrators/*": ["./src/orchestrators/*"],
+      "@services/*": ["./src/services/*"],
+      "@repositories/*": ["./src/repositories/*"],
+      "@models/*": ["./src/models/*"],
+      "@dto/*": ["./src/dto/*"],
+      "@middleware/*": ["./src/middleware/*"],
+      "@dependencies/*": ["./src/dependencies/*"],
+      "@database/*": ["./src/database/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@enums/*": ["./src/enums/*"],
+      "@exceptions/*": ["./src/exceptions/*"],
+      "@utilities/*": ["./src/utilities/*"],
+      "@clients/*": ["./src/clients/*"],
+      "@cache/*": ["./src/cache/*"],
+      "@validators/*": ["./src/validators/*"],
+      "@configuration/*": ["./src/configuration/*"],
+      "@logging/*": ["./src/logging/*"],
+      "@security/*": ["./src/security/*"],
+      "@common/*": ["./src/common/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "tests"]
+}

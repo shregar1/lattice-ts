@@ -1,0 +1,6 @@
+{
+    "name": "BackendServiceScaffold",
+    "env": "development",
+    "port": 8080,
+    "apiVersion": "v1"
+}

@@ -1,0 +1,5 @@
+{
+    "jwtSecret": "supersecretkey_change_in_production",
+    "jwtExpiration": 86400,
+    "saltRounds": 10
+}

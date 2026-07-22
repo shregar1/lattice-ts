@@ -1,0 +1,6 @@
+{
+    "provider": "memory",
+    "host": "localhost",
+    "port": 6379,
+    "defaultTtl": 300
+}
