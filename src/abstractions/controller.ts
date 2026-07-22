@@ -3,6 +3,7 @@ import { BaseResponseEnvelopeDTO } from '../dto/controller/responses/base_envelo
 import { ApiStatusConstant } from '../constants/api_status';
 import { MessageConstant } from '../constants/message';
 import { ResponseKeyConstant } from '../constants/response_key';
+import { HttpStatusConstant } from '../constants/http_status';
 import { ILogger, StructuredLogger } from '../utilities/logger';
 import { MeasurePerformance } from '../utilities/performance_decorator';
 
@@ -26,7 +27,7 @@ export abstract class BaseController implements IController {
     data: T,
     message: string = MessageConstant.OPERATION_COMPLETED_SUCCESSFULLY,
     responseKey: string = ResponseKeyConstant.SUCCESS,
-    statusCode: number = 200,
+    statusCode: number = HttpStatusConstant.OK,
     context?: IRequestContext
   ): IHttpResponse<BaseResponseEnvelopeDTO<T>> {
     const envelopeDto = new BaseResponseEnvelopeDTO<T>({
@@ -55,7 +56,7 @@ export abstract class BaseController implements IController {
     responseKey: string = ResponseKeyConstant.SUCCESS,
     context?: IRequestContext
   ): IHttpResponse<BaseResponseEnvelopeDTO<T>> {
-    return this.envelope(data, message, responseKey, 200, context);
+    return this.envelope(data, message, responseKey, HttpStatusConstant.OK, context);
   }
 
   protected created<T>(
@@ -64,6 +65,6 @@ export abstract class BaseController implements IController {
     responseKey: string = ResponseKeyConstant.RESOURCE_CREATED,
     context?: IRequestContext
   ): IHttpResponse<BaseResponseEnvelopeDTO<T>> {
-    return this.envelope(data, message, responseKey, 201, context);
+    return this.envelope(data, message, responseKey, HttpStatusConstant.CREATED, context);
   }
 }
