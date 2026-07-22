@@ -1,28 +1,40 @@
-import { ModuleBaseUtility } from './abstraction';
+export * from './database';
 
 export interface IStorageClient {
-  upload(path: string, content: Buffer): Promise<string>;
+  get<T>(key: string): Promise<T | null>;
+  set<T>(key: string, value: T, ttlSeconds?: number): Promise<void>;
+  delete(key: string): Promise<boolean>;
+  clear(): Promise<void>;
+  upload(path: string, buffer: Buffer): Promise<void>;
   download(path: string): Promise<Buffer | null>;
-  delete(path: string): Promise<boolean>;
 }
 
-export class LocalStorageClient extends ModuleBaseUtility implements IStorageClient {
-  private static storageMap = new Map<string, Buffer>();
+export class LocalStorageClient implements IStorageClient {
+  private store = new Map<string, any>();
+  private fileStore = new Map<string, Buffer>();
 
-  constructor() {
-    super();
+  async get<T>(key: string): Promise<T | null> {
+    return this.store.get(key) || null;
   }
 
-  public async upload(path: string, content: Buffer): Promise<string> {
-    LocalStorageClient.storageMap.set(path, content);
-    return path;
+  async set<T>(key: string, value: T, ttlSeconds?: number): Promise<void> {
+    this.store.set(key, value);
   }
 
-  public async download(path: string): Promise<Buffer | null> {
-    return LocalStorageClient.storageMap.get(path) || null;
+  async delete(key: string): Promise<boolean> {
+    return this.store.delete(key);
   }
 
-  public async delete(path: string): Promise<boolean> {
-    return LocalStorageClient.storageMap.delete(path);
+  async clear(): Promise<void> {
+    this.store.clear();
+    this.fileStore.clear();
+  }
+
+  async upload(path: string, buffer: Buffer): Promise<void> {
+    this.fileStore.set(path, buffer);
+  }
+
+  async download(path: string): Promise<Buffer | null> {
+    return this.fileStore.get(path) || null;
   }
 }
