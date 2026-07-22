@@ -1,6 +1,7 @@
 import { IHttpRequest, IHttpResponse } from '../../../../utilities/http';
 import { ModuleBaseController } from '../../../abstraction';
 import { BaseResponseEnvelopeDTO } from '../../../../dto/controller/responses/base_envelope';
+import { RouteRegistry } from '../../../../utilities/api_docs';
 
 export class HealthCheckController extends ModuleBaseController {
   public async handle(req: IHttpRequest): Promise<IHttpResponse<BaseResponseEnvelopeDTO>> {
@@ -22,6 +23,13 @@ export class LivenessCheckController extends ModuleBaseController {
 
 export class VersionCheckController extends ModuleBaseController {
   public async handle(req: IHttpRequest): Promise<IHttpResponse<BaseResponseEnvelopeDTO>> {
-    return this.success({ name: 'BackendServiceScaffold', version: '1.0.0', apiVersion: 'v1' }, 'API Version Info', 'VERSION_OK', req.context);
+    return this.success({ name: 'Lattice-TS', version: '1.0.0', apiVersion: 'v1' }, 'API Version Info', 'VERSION_OK', req.context);
+  }
+}
+
+export class ApiDocsController extends ModuleBaseController {
+  public async handle(req: IHttpRequest): Promise<IHttpResponse<BaseResponseEnvelopeDTO>> {
+    const spec = RouteRegistry.generateSpec();
+    return this.success(spec, 'API Spec generated successfully', 'SPEC_OK', req.context);
   }
 }
