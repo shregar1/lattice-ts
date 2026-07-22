@@ -1,0 +1,54 @@
+{
+  "serviceName": "LatticeBackend",
+  "environment": "development",
+  "port": 3000,
+  "apiPrefix": "/api",
+  "apiVersion": "/v1",
+  "database": {
+    "sql": {
+      "type": "sqlite",
+      "sqlitePath": ":memory:",
+      "postgres": {
+        "host": "localhost",
+        "port": 5432,
+        "database": "lattice",
+        "user": "postgres",
+        "password": "password"
+      }
+    },
+    "noSql": {
+      "type": "in_memory_doc",
+      "mongo": {
+        "connectionString": "mongodb://localhost:27017",
+        "databaseName": "lattice_nosql"
+      }
+    }
+  },
+  "cache": {
+    "type": "in_memory",
+    "redis": {
+      "host": "localhost",
+      "port": 6379
+    }
+  },
+  "queue": {
+    "type": "in_memory",
+    "rabbitmq": {
+      "url": "amqp://localhost:5672",
+      "exchange": "lattice.exchange"
+    }
+  },
+  "rateLimit": {
+    "windowMs": 60000,
+    "maxRequests": 100
+  },
+  "multitenancy": {
+    "strategy": "header_based",
+    "headerName": "x-tenant-id"
+  },
+  "featureFlags": {
+    "enableMetrics": true,
+    "enableTracing": true,
+    "enableAuditLogging": true
+  }
+}
