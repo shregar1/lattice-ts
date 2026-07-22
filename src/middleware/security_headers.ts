@@ -2,6 +2,16 @@ import { ModuleBaseMiddleware } from './abstraction';
 import { IHttpRequest, IHttpResponse } from '../utilities/http';
 
 export class SecurityHeadersMiddleware extends ModuleBaseMiddleware {
+  private static readonly DISCLOSURE_HEADERS_TO_STRIP = [
+    'Server',
+    'X-Powered-By',
+    'X-AspNet-Version',
+    'X-AspNetMvc-Version',
+    'X-Runtime',
+    'X-Version',
+    'X-Generator',
+  ];
+
   constructor(
     private readonly customHeaders: Record<string, string> = {
       'X-Frame-Options': 'DENY',
@@ -18,7 +28,18 @@ export class SecurityHeadersMiddleware extends ModuleBaseMiddleware {
 
   public async handle(req: IHttpRequest, next: () => Promise<IHttpResponse>): Promise<IHttpResponse> {
     const response = await next();
-    response.meta = { ...response.meta, headers: { ...(response.meta?.headers || {}), ...this.customHeaders } };
+    const existingHeaders = { ...(response.meta?.headers || {}) };
+
+    // Security Hardening: Strip server & framework version disclosure headers
+    for (const headerKey of SecurityHeadersMiddleware.DISCLOSURE_HEADERS_TO_STRIP) {
+      delete existingHeaders[headerKey];
+      delete existingHeaders[headerKey.toLowerCase()];
+    }
+
+    response.meta = {
+      ...response.meta,
+      headers: { ...existingHeaders, ...this.customHeaders },
+    };
     return response;
   }
 }
