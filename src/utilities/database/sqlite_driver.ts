@@ -1,12 +1,13 @@
-import { IDatabaseDriver, IDatabaseTransaction } from './driver';
+import { BaseDatabaseDriver, IDatabaseTransaction } from './abstraction';
 import { StructuredLogger, ILogger } from '../logger';
 
-export class SqliteDriver implements IDatabaseDriver {
+export class SqliteDriver extends BaseDatabaseDriver {
   private readonly logger: ILogger = new StructuredLogger('SqliteDriver');
   private isConnected: boolean = false;
   private readonly filePath: string;
 
   constructor(filePath: string = ':memory:') {
+    super();
     this.filePath = filePath;
   }
 

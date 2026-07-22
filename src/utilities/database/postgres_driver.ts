@@ -1,4 +1,4 @@
-import { IDatabaseDriver, IDatabaseTransaction } from './driver';
+import { BaseDatabaseDriver, IDatabaseTransaction } from './abstraction';
 import { StructuredLogger, ILogger } from '../logger';
 
 export interface IPostgresConfig {
@@ -11,12 +11,13 @@ export interface IPostgresConfig {
   maxPoolSize?: number;
 }
 
-export class PostgresDriver implements IDatabaseDriver {
+export class PostgresDriver extends BaseDatabaseDriver {
   private readonly logger: ILogger = new StructuredLogger('PostgresDriver');
   private isConnected: boolean = false;
   private readonly config: IPostgresConfig;
 
   constructor(config: IPostgresConfig = {}) {
+    super();
     this.config = config;
   }
 
